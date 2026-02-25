@@ -40,13 +40,14 @@ target_include_directories(${BINARY_NAME} PRIVATE "${CMAKE_SOURCE_DIR}")
 add_dependencies(${BINARY_NAME} flutter_assemble)
 
 # Install and copy bundled resources (scrcpy, adb, etc.)
-set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/resources")
-if(EXISTS "${RESOURCES_DIR}")
-    install(DIRECTORY "${RESOURCES_DIR}/"
-        DESTINATION "${INSTALL_BUNDLE_DATA_DIR}/resources"
-        FILES_MATCHING
-        PATTERN "*.exe"
-        PATTERN "*.dll"
-        PATTERN "scrcpy-server"
-    )
-endif()
+# Handled via Flutter Assets + ResourceManager for better portability
+# set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/resources")
+# if(EXISTS "${RESOURCES_DIR}")
+#     install(DIRECTORY "${RESOURCES_DIR}/"
+#         DESTINATION "${INSTALL_BUNDLE_DATA_DIR}/resources"
+#         FILES_MATCHING
+#         PATTERN "*.exe"
+#         PATTERN "*.dll"
+#         PATTERN "scrcpy-server"
+#     )
+# endif()

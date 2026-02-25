@@ -59,6 +59,7 @@ flutter:
   
   assets:
     - assets/images/
+    - assets/bin/windows/
 
 # Windows app configuration
 msix_config:

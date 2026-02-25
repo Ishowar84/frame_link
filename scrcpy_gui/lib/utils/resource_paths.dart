@@ -1,35 +1,32 @@
 import 'dart:io';
 import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
-/// Manages paths to embedded scrcpy and adb binaries
+/// Manages paths to extracted scrcpy and adb binaries
 class ResourcePaths {
-  static String get basePath {
-    if (Platform.isWindows) {
-      // 1. Production Mode: Check relative to the .exe location 
-      // Structure: Release/frame_link.exe -> Release/data/resources/
-      final exePath = Platform.resolvedExecutable;
-      final exeDir = path.dirname(exePath);
-      final prodPath = path.join(exeDir, 'data', 'resources');
-      
-      if (Directory(prodPath).existsSync()) {
-        return prodPath;
-      }
+  static String? _extractedPath;
 
-      // 2. Development Mode: Check relative to project root
-      // We use Directory.current as a fallback for when running from IDE
+  /// Initialize the resource paths by finding the extraction directory.
+  /// This should be called after ResourceManager.extractResources().
+  static Future<void> init() async {
+    final supportDir = await getApplicationSupportDirectory();
+    _extractedPath = path.join(supportDir.path, 'bin');
+  }
+
+  static String get basePath {
+    if (_extractedPath != null) {
+      return _extractedPath!;
+    }
+    
+    // Fallback/Safety check (should not be hit if init is called)
+    if (Platform.isWindows) {
       final debugPath = path.join(Directory.current.path, 'windows', 'runner', 'resources');
       if (Directory(debugPath).existsSync()) {
         return debugPath;
       }
-      
-      // Fallback to prodPath structure even if directory doesn't exist yet (for build time checks)
-      return prodPath;
-    } else if (Platform.isLinux) {
-      return 'linux/flutter/resources';
-    } else if (Platform.isMacOS) {
-      return 'macos/Runner/resources';
     }
-    throw UnsupportedError('Platform not supported');
+    
+    throw StateError('ResourcePaths not initialized. Call init() first.');
   }
 
   static String get scrcpyExe {
@@ -46,7 +43,7 @@ class ResourcePaths {
     return path.join(basePath, 'scrcpy-server');
   }
 
-  /// Verify all required binaries exist
+  /// Verify all required binaries exist in the extracted location
   static Future<bool> verifyResources() async {
     try {
       final scrcpyExists = await File(scrcpyExe).exists();
@@ -75,7 +72,7 @@ class ResourcePaths {
     
     if (missing.isEmpty) return null;
     
-    return 'Missing required files: ${missing.join(', ')}\n'
-        'Expected location: $basePath';
+    return 'Missing required files in extracted location: ${missing.join(', ')}\n'
+        'Location: $basePath';
   }
 }

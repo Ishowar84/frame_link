@@ -6,6 +6,7 @@ import '../services/settings_service.dart';
 import '../models/device_model.dart';
 import '../models/settings_model.dart';
 import 'wireless_setup_screen.dart';
+import 'wireless_pairing_screen.dart';
 import 'settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -113,6 +114,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () => adbService.refreshDevices(),
                 tooltip: 'Refresh',
               ),
+            IconButton(
+              icon: const Icon(Icons.add_link),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const WirelessPairingScreen()),
+                );
+              },
+              tooltip: 'Wireless Debugging (Android 11+)',
+            ),
           ],
         );
       },

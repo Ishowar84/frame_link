@@ -7,6 +7,7 @@ import 'services/adb_service.dart';
 import 'services/scrcpy_service.dart';
 import 'services/settings_service.dart';
 import 'utils/resource_paths.dart';
+import 'utils/resource_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -127,28 +128,36 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _initialize() async {
     try {
-      // Check for required binaries
-      setState(() => _status = 'Checking resources...');
+      // 1. Initialize Paths
+      setState(() => _status = 'Initializing paths...');
+      await ResourcePaths.init();
+
+      // 2. Extract Resources (if needed)
+      setState(() => _status = 'Preparing background services...');
+      await ResourceManager.extractResources();
+      
+      // 3. Verify Resources
+      setState(() => _status = 'Verifying resources...');
       await Future.delayed(const Duration(milliseconds: 500));
 
       final resourcesOk = await ResourcePaths.verifyResources();
       if (!resourcesOk) {
         final message = await ResourcePaths.getMissingResourcesMessage();
         setState(() {
-          _status = message ?? 'Required files are missing';
+          _status = message ?? 'Required background services could not be started.';
           _hasError = true;
         });
         return;
       }
 
-      // Load settings
-      setState(() => _status = 'Loading settings...');
+      // 4. Load settings
+      setState(() => _status = 'Loading preferences...');
       final settingsService = context.read<SettingsService>();
       await settingsService.loadSettings();
 
-      // Initialize ADB
-      setState(() => _status = 'Starting ADB...');
-      await Future.delayed(const Duration(milliseconds: 300));
+      // 5. Initialize ADB (Silent refresh)
+      setState(() => _status = 'Connecting to ADB...');
+      await context.read<AdbService>().refreshDevices(silent: true);
 
       // Navigate to home
       if (mounted) {
@@ -158,7 +167,7 @@ class _SplashScreenState extends State<SplashScreen> {
       }
     } catch (e) {
       setState(() {
-        _status = 'Initialization failed: $e';
+        _status = 'Critical initialization failure: $e';
         _hasError = true;
       });
     }

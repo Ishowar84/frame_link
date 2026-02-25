@@ -173,12 +173,13 @@ class AdbService extends ChangeNotifier {
     }
   }
 
-  /// Connect to device wirelessly
+  /// Connect to device wirelessly with custom port
   Future<bool> connectWireless(String ip, {int port = 5555}) async {
     try {
       final adbPath = ResourcePaths.adbExe;
       final address = '$ip:$port';
 
+      debugPrint('Connecting to wireless device: $address');
       final result = await Process.run(
         adbPath,
         ['connect', address],
@@ -190,7 +191,7 @@ class AdbService extends ChangeNotifier {
 
       if (success) {
         // Refresh device list after connection
-        await Future.delayed(const Duration(milliseconds: 500));
+        await Future.delayed(const Duration(milliseconds: 1000));
         await refreshDevices();
       } else {
         throw Exception('Connection failed: $output');
@@ -199,6 +200,37 @@ class AdbService extends ChangeNotifier {
       return success;
     } catch (e) {
       _error = 'Failed to connect wirelessly: $e';
+      notifyListeners();
+      return false;
+    }
+  }
+
+  /// Pair a device using Android 11+ Wireless Debugging pairing code
+  Future<bool> pairDevice(String address, String pairingCode) async {
+    try {
+      final adbPath = ResourcePaths.adbExe;
+
+      debugPrint('Pairing with device at $address using code $pairingCode');
+      
+      // result = adb pair [ip:port] [pairing_code]
+      final result = await Process.run(
+        adbPath,
+        ['pair', address, pairingCode],
+        runInShell: true,
+      );
+
+      if (result.exitCode != 0) {
+        throw Exception('Pairing failed: ${result.stderr}');
+      }
+
+      final output = result.stdout.toString();
+      if (output.contains('Successfully paired')) {
+        return true;
+      } else {
+        throw Exception('Pairing failed: $output');
+      }
+    } catch (e) {
+      _error = 'Pairing error: $e';
       notifyListeners();
       return false;
     }

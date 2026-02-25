@@ -19,34 +19,16 @@ A beautiful, feature-rich GUI wrapper for [scrcpy](https://github.com/Genymobile
 - Auto-save settings
 - Beautiful dark theme UI
 
+## 📦 Zero-Setup Portability
+FrameLink is designed to be **truly portable**. You don't need to manually install scrcpy or ADB.
+
+- **Self-Extracting**: On first launch, the app automatically unpacks the required scrcpy binaries into a safe system folder.
+- **Single Binary**: You can share just the `.exe` or the `.msix` and it will work on any Windows computer.
+
 ## 📋 Prerequisites
-
-1. **Windows 10/11** (Linux and macOS support coming soon)
-2. **Android device** with USB Debugging enabled (Android 5.0+)
-3. **USB cable** for initial setup
-
-## 📦 SETUP GUIDE - FrameLink
-
-### Step 1: Get scrcpy Binaries
-
-1. Download the latest scrcpy Windows release:
-   - Go to: https://github.com/Genymobile/scrcpy/releases/latest
-   - Download `scrcpy-win64-vX.X.X.zip`
-
-2. Extract the following files to `windows/runner/resources/`:
-   ```
-   scrcpy.exe
-   scrcpy-server
-   adb.exe
-   AdbWinApi.dll
-   AdbWinUsbApi.dll
-   SDL2.dll
-   avcodec-*.dll
-   avformat-*.dll
-   avutil-*.dll
-   swresample-*.dll
-   swscale-*.dll
-   ```
+1. **Windows 10/11**
+2. **Android device** with USB Debugging enabled
+3. **USB cable** for initial connection
 
 ### Step 2: Install Flutter Dependencies
 
