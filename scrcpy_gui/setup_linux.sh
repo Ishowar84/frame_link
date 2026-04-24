@@ -30,10 +30,29 @@ if [ $? -eq 0 ]; then
     if [ -f "./frame_link" ]; then
         chmod +x ./frame_link
         echo "✅ App binary 'frame_link' is now executable."
+        
+        # Create Desktop Entry
+        echo "Creating desktop shortcut..."
+        APP_PATH=$(pwd)/frame_link
+        ICON_PATH=$(pwd)/data/flutter_assets/assets/images/frame_link.png
+        mkdir -p ~/.local/share/applications
+        
+        cat > ~/.local/share/applications/frame_link.desktop <<EOF
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FrameLink
+Comment=Android Screen Mirroring
+Exec=$APP_PATH
+Icon=$ICON_PATH
+Terminal=false
+Categories=Utility;Development;
+EOF
+        echo "✅ Desktop shortcut created! You can now find FrameLink in your app menu."
     fi
     
     echo "----------------------------------------"
-    echo "🎉 Setup complete! You can now run the app using: ./frame_link"
+    echo "🎉 Setup complete! You can now run the app from your menu or using: ./frame_link"
 else
     echo "❌ Installation failed. Please check the errors above."
     exit 1
