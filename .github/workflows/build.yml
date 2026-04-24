@@ -19,10 +19,8 @@ jobs:
           flutter pub get
           flutter build windows --release
       - name: Archive Windows
-        shell: bash
         run: |
-          cd scrcpy_gui/build/windows/x64/runner/Release/
-          zip -r ../../../../../FrameLink-Windows.zip .
+          Compress-Archive -Path scrcpy_gui/build/windows/x64/runner/Release/* -DestinationPath FrameLink-Windows.zip
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
         with:
