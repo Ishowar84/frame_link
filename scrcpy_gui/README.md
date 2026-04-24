@@ -8,6 +8,8 @@ You can download the latest automated builds for **Windows** and **Linux** from 
 2. Click on the most recent successful "Build FrameLink" workflow.
 3. Scroll down to **Artifacts** to find the download links.
 
+**Note for Linux users**: After downloading and unzipping the Linux build, run `./setup_linux.sh` first. This will install dependencies and make the `frame_link` file executable. You can then launch the app by double-clicking `frame_link` or running `./frame_link` in the terminal.
+
 ## ✨ Features
 
 ### 🎯 Core Features

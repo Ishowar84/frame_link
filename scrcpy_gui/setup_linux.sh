@@ -25,6 +25,15 @@ eval $INSTALL_CMD
 
 if [ $? -eq 0 ]; then
     echo "✅ Dependencies installed successfully!"
+    
+    # Make the app binary executable if it exists in the current folder
+    if [ -f "./frame_link" ]; then
+        chmod +x ./frame_link
+        echo "✅ App binary 'frame_link' is now executable."
+    fi
+    
+    echo "----------------------------------------"
+    echo "🎉 Setup complete! You can now run the app using: ./frame_link"
 else
     echo "❌ Installation failed. Please check the errors above."
     exit 1
