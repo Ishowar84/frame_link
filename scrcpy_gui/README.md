@@ -3,9 +3,9 @@
 A beautiful, feature-rich GUI wrapper for [scrcpy](https://github.com/Genymobile/scrcpy) built with Flutter.
 
 ## 📥 Downloads
-You can find the latest **Windows** and **Linux** versions on our [**Releases Page**](../../releases/latest).
+You can find the latest **Windows** and **Linux** versions on our [**Releases Page**](https://github.com/Ishowar84/frame_link/releases/latest).
 
-1. Go to the [**Releases Page**](../../releases/latest).
+1. Go to the [**Releases Page**](https://github.com/Ishowar84/frame_link/releases/latest).
 2. Under **Assets**, download the `.zip` file for your platform.
 3. **For Linux**: Unzip the folder and run `./setup_linux.sh` first to install dependencies.
 
