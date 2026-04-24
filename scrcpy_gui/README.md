@@ -2,6 +2,12 @@
 
 A beautiful, feature-rich GUI wrapper for [scrcpy](https://github.com/Genymobile/scrcpy) built with Flutter.
 
+## 📥 Downloads
+You can download the latest automated builds for **Windows** and **Linux** from the GitHub Actions tab:
+1. Go to the [**Actions**](../../actions) tab of this repository.
+2. Click on the most recent successful "Build FrameLink" workflow.
+3. Scroll down to **Artifacts** to find the download links.
+
 ## ✨ Features
 
 ### 🎯 Core Features
