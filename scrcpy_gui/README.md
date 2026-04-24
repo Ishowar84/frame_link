@@ -3,12 +3,11 @@
 A beautiful, feature-rich GUI wrapper for [scrcpy](https://github.com/Genymobile/scrcpy) built with Flutter.
 
 ## 📥 Downloads
-You can download the latest automated builds for **Windows** and **Linux** from the GitHub Actions tab:
-1. Go to the [**Actions**](../../actions) tab of this repository.
-2. Click on the most recent successful "Build FrameLink" workflow.
-3. Scroll down to **Artifacts** to find the download links.
+You can find the latest **Windows** and **Linux** versions on our [**Releases Page**](../../releases/latest).
 
-**Note for Linux users**: After downloading and unzipping the Linux build, run `./setup_linux.sh` first. This will install dependencies and make the `frame_link` file executable. You can then launch the app by double-clicking `frame_link` or running `./frame_link` in the terminal.
+1. Go to the [**Releases Page**](../../releases/latest).
+2. Under **Assets**, download the `.zip` file for your platform.
+3. **For Linux**: Unzip the folder and run `./setup_linux.sh` first to install dependencies.
 
 ## ✨ Features
 
