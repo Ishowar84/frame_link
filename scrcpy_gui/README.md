@@ -26,25 +26,33 @@ FrameLink is designed to be **truly portable**. You don't need to manually insta
 - **Single Binary**: You can share just the `.exe` or the `.msix` and it will work on any Windows computer.
 
 ## 📋 Prerequisites
-1. **Windows 10/11**
-2. **Android device** with USB Debugging enabled
-3. **USB cable** for initial connection
+- **Windows**: 10/11
+- **Linux**: Any modern distribution (Arch, Ubuntu/Debian, Fedora, etc.)
+- **Android device** with USB Debugging enabled
+- **USB cable** for initial connection
 
-### Step 2: Install Flutter Dependencies
+### Step 2: Install Dependencies
 
+#### Windows
+On first launch, the app automatically extracts its own binaries. No manual installation needed.
+
+#### Linux
+Run the included setup script to install `scrcpy` and `adb`:
 ```bash
-cd scrcpy_gui
-flutter pub get
+chmod +x setup_linux.sh
+./setup_linux.sh
 ```
 
 ### Step 3: Run the App
 
 ```bash
 # Debug mode
-flutter run -d windows
+flutter run -d windows  # On Windows
+flutter run -d linux    # On Linux
 
 # Release mode
 flutter build windows --release
+flutter build linux --release
 ```
 
 ## 📦 Building Installer

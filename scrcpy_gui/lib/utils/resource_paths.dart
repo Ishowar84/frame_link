@@ -14,6 +14,10 @@ class ResourcePaths {
   }
 
   static String get basePath {
+    if (Platform.isLinux) {
+      return ''; // Not used for Linux as we use system PATH
+    }
+    
     if (_extractedPath != null) {
       return _extractedPath!;
     }
@@ -30,22 +34,31 @@ class ResourcePaths {
   }
 
   static String get scrcpyExe {
+    if (Platform.isLinux) return 'scrcpy';
     final exe = Platform.isWindows ? 'scrcpy.exe' : 'scrcpy';
     return path.join(basePath, exe);
   }
 
   static String get adbExe {
+    if (Platform.isLinux) return 'adb';
     final exe = Platform.isWindows ? 'adb.exe' : 'adb';
     return path.join(basePath, exe);
   }
 
   static String get scrcpyServer {
+    if (Platform.isLinux) return 'scrcpy-server';
     return path.join(basePath, 'scrcpy-server');
   }
 
   /// Verify all required binaries exist in the extracted location
   static Future<bool> verifyResources() async {
     try {
+      if (Platform.isLinux) {
+        final scrcpyResult = await Process.run('which', ['scrcpy']);
+        final adbResult = await Process.run('which', ['adb']);
+        return scrcpyResult.exitCode == 0 && adbResult.exitCode == 0;
+      }
+
       final scrcpyExists = await File(scrcpyExe).exists();
       final adbExists = await File(adbExe).exists();
       final serverExists = await File(scrcpyServer).exists();
